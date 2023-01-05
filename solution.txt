@@ -1,0 +1,98 @@
+function apartmentHunting(blocks, reqs) {
+  var maxdistanceatBlocks, mindistancefromBlocks;
+  mindistancefromBlocks = list(map(req => {
+    return getmindistance(blocks, req);
+  }, reqs));
+  maxdistanceatBlocks = getmaxdistanceatBlocks(blocks, mindistancefromBlocks);
+  return getIdxatminvalue(maxdistanceatBlocks);
+}
+
+function getmindistance(blocks, req) {
+  var closestReqIdx, mindistance;
+
+  mindistance = function () {
+    var _pj_a = [],
+        _pj_b = blocks;
+
+    for (var _pj_c = 0, _pj_d = _pj_b.length; _pj_c < _pj_d; _pj_c += 1) {
+      var block = _pj_b[_pj_c];
+
+      _pj_a.push(0);
+    }
+
+    return _pj_a;
+  }.call(this);
+
+  closestReqIdx = Number.parseFloat("inf");
+
+  for (var i = 0, _pj_a = blocks.length; i < _pj_a; i += 1) {
+    if (blocks[i][req]) {
+      closestReqIdx = i;
+    }
+
+    mindistance[i] = distanceBetween(i, closestReqIdx);
+  }
+
+  for (var i, _pj_c = 0, _pj_a = reversed(range(blocks.length)), _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+    i = _pj_a[_pj_c];
+
+    if (blocks[i][req]) {
+      closestReqIdx = i;
+    }
+
+    mindistance[i] = min(mindistance[i], distanceBetween(i, closestReqIdx));
+  }
+
+  return mindistance;
+}
+
+function getmaxdistanceatBlocks(blocks, mindistancefromBlocks) {
+  var maxdistanceatBlocks, mindistanceatBlock;
+
+  maxdistanceatBlocks = function () {
+    var _pj_a = [],
+        _pj_b = blocks;
+
+    for (var _pj_c = 0, _pj_d = _pj_b.length; _pj_c < _pj_d; _pj_c += 1) {
+      var blocks = _pj_b[_pj_c];
+
+      _pj_a.push(0);
+    }
+
+    return _pj_a;
+  }.call(this);
+
+  for (var i = 0, _pj_a = blocks.length; i < _pj_a; i += 1) {
+    mindistanceatBlock = list(map(distances => {
+      return distances[i];
+    }, mindistancefromBlocks));
+    maxdistanceatBlocks[i] = max(mindistanceatBlock);
+  }
+
+  return maxdistanceatBlocks;
+}
+
+function getIdxatminvalue(array) {
+  var currentvalue, idxatMinvalue, minvalue;
+  idxatMinvalue = 0;
+  minvalue = Number.parseFloat("inf");
+
+  for (var i = 0, _pj_a = array.length; i < _pj_a; i += 1) {
+    currentvalue = array[i];
+
+    if (currentvalue < minvalue) {
+      minvalue = currentvalue;
+      idxatMinvalue = i;
+    }
+  }
+
+  return idxatMinvalue;
+}
+
+function distanceBetween(a, b) {
+  return abs(a - b);
+}
+
+
+exports.apartmentHunting = apartmentHunting;
+
